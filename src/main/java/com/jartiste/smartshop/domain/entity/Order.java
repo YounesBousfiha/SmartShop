@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,6 +37,15 @@ public class Order {
     private BigDecimal totalAmount;
 
     private BigDecimal remainingAmount;
+
+    @ManyToOne
+    private Client client;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> itemList;
+
+    @OneToMany(mappedBy = "order")
+    private List<Payment> payments;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

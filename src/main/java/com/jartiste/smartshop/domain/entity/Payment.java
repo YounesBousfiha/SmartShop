@@ -34,6 +34,9 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
+    @ManyToOne
+    private Order order;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
