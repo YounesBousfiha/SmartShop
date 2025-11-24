@@ -39,9 +39,10 @@ public class Order {
     private BigDecimal remainingAmount;
 
     @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> itemList;
 
     @OneToMany(mappedBy = "order")

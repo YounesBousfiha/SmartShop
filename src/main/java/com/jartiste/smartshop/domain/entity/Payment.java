@@ -34,6 +34,8 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
+    private Integer paymentNumber;
+
     @ManyToOne
     private Order order;
 
