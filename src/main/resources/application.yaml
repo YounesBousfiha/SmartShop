@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: smartshop
+
+  profiles:
+    active: dev
