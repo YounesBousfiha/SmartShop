@@ -54,7 +54,9 @@ public class ClientService {
 
         clientMapper.updateEntityFromDto(request, client);
 
-        return this.clientMapper.toResponse(client);
+        Client updatedClient = this.clientRepository.save(client);
+
+        return this.clientMapper.toResponse(updatedClient);
     }
 
 
