@@ -8,7 +8,6 @@ import com.jartiste.smartshop.presentation.dto.response.OrderItemResponse;
 import com.jartiste.smartshop.presentation.dto.response.OrderResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
@@ -23,6 +22,6 @@ public interface OrderMapper {
 
     @Mapping(source = "product.id", target = "productId")
     @Mapping(source = "product.name", target = "productName")
-    @Mapping(target = "totalLine", expression = "java(item.getUnitPrice().multiply(java.math.BigDecimal.valueOf(item.getQuantity()")
+    @Mapping(target = "totalLine", expression = "java(item.getUnitPrice().multiply(java.math.BigDecimal.valueOf(item.getQuantity())))")
     OrderItemResponse toItemResponse(OrderItem item);
 }
