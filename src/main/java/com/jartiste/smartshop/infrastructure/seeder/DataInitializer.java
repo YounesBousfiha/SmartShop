@@ -41,7 +41,7 @@ public class DataInitializer implements CommandLineRunner {
 
     private void seedUsers() {
         if(this.userRepository.count() > 0) {
-            log.info("Users in Database Already Seeded..");
+            log.info("Users(Admin) Already Seeded...");
             return;
         }
 
@@ -56,6 +56,11 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void seedClients() {
+
+        if(this.clientRepository.count() > 0) {
+            log.info("Client Already Seeded...");
+            return;
+        }
         // Silver Client
         Client client1 = Client.builder()
                 .nom("Nokia Maroc")
@@ -110,6 +115,10 @@ public class DataInitializer implements CommandLineRunner {
 
     private void seedProducts() {
 
+        if(this.productRepository.count() > 0) {
+            log.info("Product Already Seeded...");
+            return;
+        }
         // Expensive Product
         Product product1 = Product.builder()
                 .name("MacBook Pro M3 Max")

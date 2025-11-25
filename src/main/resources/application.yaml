@@ -3,4 +3,4 @@ spring:
     name: smartshop
 
   profiles:
-    active: qa
+    active: dev
