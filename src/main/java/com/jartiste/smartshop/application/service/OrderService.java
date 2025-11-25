@@ -6,6 +6,8 @@ import com.jartiste.smartshop.domain.entity.Client;
 import com.jartiste.smartshop.domain.entity.Order;
 import com.jartiste.smartshop.domain.entity.OrderItem;
 import com.jartiste.smartshop.domain.entity.Product;
+import com.jartiste.smartshop.domain.enums.OrderStatus;
+import com.jartiste.smartshop.domain.exception.BusinessLogicViolation;
 import com.jartiste.smartshop.domain.exception.ResourceNotFound;
 import com.jartiste.smartshop.domain.repository.ClientRepository;
 import com.jartiste.smartshop.domain.repository.OrderRepository;
@@ -30,6 +32,7 @@ public class OrderService {
     private final ClientRepository clientRepository;
     private final OrderDomainService orderDomainService;
     private final OrderMapper orderMapper;
+    private static final String ORDER_NOT_FOUND = "Order not Found";
 
     public OrderResponse createOrder(OrderRequest request) {
         Client client = this.clientRepository.findById(request.ClientId())
@@ -68,11 +71,41 @@ public class OrderService {
     public OrderResponse getOrderById(Long id) {
         return this.orderRepository.findById(id)
                 .map(orderMapper::toResponse)
-                .orElseThrow(() -> new ResourceNotFound("Order not Found"));
+                .orElseThrow(() -> new ResourceNotFound( ORDER_NOT_FOUND));
     }
 
     public Page<OrderResponse> getOrderByClient(Long clientId, Pageable pageable) {
         return this.orderRepository.findByClient_Id(clientId, pageable)
                 .map(orderMapper::toResponse);
+    }
+
+    public OrderResponse validateOrder(Long orderId) {
+        Order order = this.orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFound(ORDER_NOT_FOUND));
+
+        if(order.getOrderStatus() != OrderStatus.PENDING) {
+            throw new BusinessLogicViolation("The order is not pending (Current status: " + order.getOrderStatus() + ")");
+        }
+
+        // TODO: Verify If the Order is Fully Paid
+
+        order.setOrderStatus(OrderStatus.CONFIRMED);
+        Order saved = this.orderRepository.save(order);
+
+        return this.orderMapper.toResponse(saved);
+    }
+
+    public void cancelOrder(Long orderId) {
+        Order order = this.orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFound(ORDER_NOT_FOUND));
+
+        if(order.getOrderStatus() != OrderStatus.PENDING) {
+            throw  new BusinessLogicViolation("Only Pending Orders can be Canceled");
+        }
+
+        // TODO: add Logic so I can return the Stock
+
+        order.setOrderStatus(OrderStatus.CANCELED);
+        this.orderRepository.save(order);
     }
 }
