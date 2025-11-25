@@ -14,6 +14,8 @@ import com.jartiste.smartshop.domain.service.OrderDomainService;
 import com.jartiste.smartshop.presentation.dto.request.OrderRequest;
 import com.jartiste.smartshop.presentation.dto.response.OrderResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -61,5 +63,16 @@ public class OrderService {
         this.clientRepository.save(client);
 
         return this.orderMapper.toResponse(savedOrder);
+    }
+
+    public OrderResponse getOrderById(Long id) {
+        return this.orderRepository.findById(id)
+                .map(orderMapper::toResponse)
+                .orElseThrow(() -> new ResourceNotFound("Order not Found"));
+    }
+
+    public Page<OrderResponse> getOrderByClient(Long clientId, Pageable pageable) {
+        return this.orderRepository.findByClient_Id(clientId, pageable)
+                .map(orderMapper::toResponse);
     }
 }
