@@ -1,6 +1,7 @@
 package com.jartiste.smartshop.domain.entity;
 
 
+import com.jartiste.smartshop.domain.exception.BusinessLogicViolation;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,4 +35,11 @@ public class Product {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public void decreaseStock(int quantity) {
+        if(this.stock < quantity) {
+            throw new BusinessLogicViolation("Insufficient Product stock");
+        }
+        this.stock -= quantity;
+    }
 }
