@@ -3,7 +3,6 @@ package com.jartiste.smartshop.domain.entity;
 
 import com.jartiste.smartshop.domain.enums.UserRole;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +19,7 @@ import java.time.LocalDateTime;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
+@Table(name = "users")
 public abstract class User {
 
     @Id
