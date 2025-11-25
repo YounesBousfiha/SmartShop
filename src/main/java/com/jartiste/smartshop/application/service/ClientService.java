@@ -32,7 +32,9 @@ public class ClientService {
         Client client = this.clientMapper.toEntity(request);
         client.setPassword(passwordUtil.hashPassword(request.password()));
 
-        return this.clientMapper.toResponse(client);
+        Client newClient = this.clientRepository.save(client);
+
+        return this.clientMapper.toResponse(newClient);
     }
 
     public ClientResponse getClientById(Long id) {
