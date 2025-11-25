@@ -14,7 +14,7 @@ public record ProductRequest(
         BigDecimal price,
 
         @NotNull(message = "Stock is Required")
-        @Min(value = 0, message = "Stock can't be negative")
+        @Min(value = 1, message = "Stock can't be negative")
         Integer stock
 ) {
 }
