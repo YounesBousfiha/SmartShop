@@ -3,9 +3,7 @@ package com.jartiste.smartshop.application.mapper;
 import com.jartiste.smartshop.domain.entity.Client;
 import com.jartiste.smartshop.presentation.dto.request.ClientRequest;
 import com.jartiste.smartshop.presentation.dto.response.ClientResponse;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface ClientMapper {
@@ -28,5 +26,6 @@ public interface ClientMapper {
     @Mapping(target = "tier", ignore = true)
     @Mapping(target = "totalOrders", ignore = true)
     @Mapping(target = "totalSpent", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy =  NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(ClientRequest request, @MappingTarget Client client);
 }
