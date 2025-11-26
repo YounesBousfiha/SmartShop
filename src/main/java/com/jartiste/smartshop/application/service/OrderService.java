@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +88,9 @@ public class OrderService {
             throw new BusinessLogicViolation("The order is not pending (Current status: " + order.getOrderStatus() + ")");
         }
 
-        // TODO: Verify If the Order is Fully Paid
+        if(order.getRemainingAmount().compareTo(BigDecimal.ZERO) > 0) {
+            throw new BusinessLogicViolation("the order is still not Paid Fully");
+        }
 
         order.setOrderStatus(OrderStatus.CONFIRMED);
         Order saved = this.orderRepository.save(order);
@@ -103,7 +106,18 @@ public class OrderService {
             throw  new BusinessLogicViolation("Only Pending Orders can be Canceled");
         }
 
-        // TODO: add Logic so I can return the Stock
+        List<Product> productsToUpdate = order.getItemList().stream()
+                .map(item -> {
+                           Product product = this.productRepository.findById(item.getProduct().getId())
+                                   .orElseThrow(() -> new ResourceNotFound("Product not Found"));
+
+                           product.increaseStock(item.getQuantity());
+
+                           return product;
+                        })
+                        .toList();
+
+        this.productRepository.saveAll(productsToUpdate);
 
         order.setOrderStatus(OrderStatus.CANCELED);
         this.orderRepository.save(order);
