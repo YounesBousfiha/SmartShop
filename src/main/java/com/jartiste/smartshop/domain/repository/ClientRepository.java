@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
     Page<Client> findByNomContainingIgnoreCase(String keyword, Pageable pageable);
+
+    Object existsByUsername(String username);
 }
