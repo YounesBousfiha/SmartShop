@@ -4,9 +4,7 @@ package com.jartiste.smartshop.application.mapper;
 import com.jartiste.smartshop.domain.entity.Product;
 import com.jartiste.smartshop.presentation.dto.request.ProductRequest;
 import com.jartiste.smartshop.presentation.dto.response.ProductResponse;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
@@ -23,5 +21,6 @@ public interface ProductMapper {
     @Mapping(target = "deleted", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy =  NullValuePropertyMappingStrategy.IGNORE)
     void updateProductFromDto(ProductRequest request, @MappingTarget Product product);
 }
