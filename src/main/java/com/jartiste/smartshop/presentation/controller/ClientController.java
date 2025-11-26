@@ -70,10 +70,10 @@ public class ClientController {
     }
 
     private void validateAccess(Long targetId, HttpSession session) {
-        String role = (String)  session.getAttribute("USER_ROLE");
+        UserRole role = (UserRole)  session.getAttribute("USER_ROLE");
         Long currentUserId = (Long) session.getAttribute("USER_ID");
 
-        if(UserRole.ADMIN.name().equals(role)) {
+        if(UserRole.ADMIN.equals(role)) {
             return;
         }
 
