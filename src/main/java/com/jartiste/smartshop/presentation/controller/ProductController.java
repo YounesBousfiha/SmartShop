@@ -5,7 +5,6 @@ import com.jartiste.smartshop.domain.enums.UserRole;
 import com.jartiste.smartshop.presentation.annotation.RequireRole;
 import com.jartiste.smartshop.presentation.dto.request.ProductRequest;
 import com.jartiste.smartshop.presentation.dto.response.ProductResponse;
-import jakarta.persistence.PreUpdate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +22,10 @@ public class ProductController {
 
     @GetMapping
     @RequireRole({UserRole.ADMIN, UserRole.CLIENT})
-    public ResponseEntity<Page<ProductResponse>> getAllProducts(int page, int size) {
+    public ResponseEntity<Page<ProductResponse>> getAllProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size)
+    {
 
         Pageable pageable = PageRequest.of(page, size);
 
