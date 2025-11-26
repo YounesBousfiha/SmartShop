@@ -38,8 +38,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new UnAuthorizedException("You are not authenticated");
         }
 
-        String roleName = (String) session.getAttribute("USER_ROLE");
-        UserRole userRole = UserRole.valueOf(roleName);
+        UserRole userRole = (UserRole) session.getAttribute("USER_ROLE");
 
         boolean isAllowed = Arrays.asList(requireRole.value()).contains(userRole);
 
