@@ -50,7 +50,7 @@ public class ProductService {
     }
 
     public void deleteProduct(Long id) {
-        Product product = this.productRepository.findById(id)
+        Product product = this.productRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new ResourceNotFound(NOT_FOUND));
 
         product.setDeleted(true);
