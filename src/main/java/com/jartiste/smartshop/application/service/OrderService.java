@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,12 @@ public class OrderService {
     public OrderResponse createOrder(OrderRequest request) {
         Client client = this.clientRepository.findById(request.ClientId())
                 .orElseThrow(() -> new ResourceNotFound("Client not Found"));
+
+        LocalDate today = LocalDate.now();
+        if (client.getFirstOrderDate() == null) {
+            client.setFirstOrderDate(today);
+        }
+        client.setLastOrderDate(today);
 
         Order order = orderDomainService.initializeOrder(client, request.promoCode());
         order.setItemList(new ArrayList<>());
