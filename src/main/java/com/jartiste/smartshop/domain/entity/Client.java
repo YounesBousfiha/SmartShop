@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 
 @Entity
@@ -22,6 +23,8 @@ public class Client extends User {
     private CustomerTier tier;
     private Integer totalOrders;
     private BigDecimal totalSpent;
+    private LocalDate firstOrderDate;
+    private LocalDate lastOrderDate;
 
 
     public void updateStats(BigDecimal orderAmount) {
