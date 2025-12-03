@@ -69,8 +69,6 @@ public class OrderService {
 
         Order savedOrder = this.orderRepository.save(order);
 
-        client.updateStats(savedOrder.getTotalAmount());
-
         this.clientRepository.save(client);
 
         return this.orderMapper.toResponse(savedOrder);
@@ -100,6 +98,11 @@ public class OrderService {
         }
 
         order.setOrderStatus(OrderStatus.CONFIRMED);
+        Client client = order.getClient();
+
+        client.updateStats(order.getTotalAmount());
+
+        this.clientRepository.save(client);
         Order saved = this.orderRepository.save(order);
 
         return this.orderMapper.toResponse(saved);
