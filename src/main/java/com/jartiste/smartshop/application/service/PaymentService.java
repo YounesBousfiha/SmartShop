@@ -35,31 +35,24 @@ public class PaymentService {
         Order order = this.orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFound("Order Not Found"));
 
-        // Validate order status
         if(order.getOrderStatus() == OrderStatus.CANCELED || order.getOrderStatus() == OrderStatus.REJECTED) {
             throw new BusinessLogicViolation("Order Already Canceled Or Rejected");
         }
 
-        // Validate payment amount doesn't exceed remaining amount
         if(request.amount().compareTo(order.getRemainingAmount()) > 0) {
             throw new BusinessLogicViolation("The amount is more than what remains");
         }
 
-        // Validate payment method specific rules
         validatePaymentMethodRules(request);
 
-        // Generate reference if not provided
         String reference = generateReference(request);
 
-        // Determine initial payment status based on payment method
         PaymentStatus initialStatus = determineInitialStatus(request.paymentMethod());
 
-        // Set clearedDate for ESPECES (cash) payments
         LocalDateTime clearedDate = (request.paymentMethod() == PaymentMethod.ESPECES)
                 ? LocalDateTime.now()
                 : null;
 
-        // Create payment
         Payment payment = Payment.builder()
                 .order(order)
                 .amount(request.amount())
@@ -71,24 +64,19 @@ public class PaymentService {
                 .clearedDate(clearedDate)
                 .build();
 
-        // Update order remaining amount
         BigDecimal newRemaining = order.getRemainingAmount().subtract(request.amount());
         order.setRemainingAmount(newRemaining);
 
-        // Save payment
         Payment savedPayment = this.paymentRepository.save(payment);
 
-        // Check if order is fully paid and auto-confirm
         if (newRemaining.compareTo(BigDecimal.ZERO) == 0 && order.getOrderStatus() == OrderStatus.PENDING) {
             order.setOrderStatus(OrderStatus.CONFIRMED);
 
-            // Update client stats
             Client client = order.getClient();
             client.updateStats(order.getTotalAmount());
             this.clientRepository.save(client);
         }
 
-        // Save order with updated remaining amount and possibly new status
         this.orderRepository.save(order);
 
         return buildPaymentResponse(savedPayment);
