@@ -5,6 +5,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public record PaymentRequest(
         @NotNull(message = "Amount is Required")
@@ -12,6 +13,12 @@ public record PaymentRequest(
         BigDecimal amount,
 
         @NotNull(message = "One payment method is required")
-        PaymentMethod paymentMethod
+        PaymentMethod paymentMethod,
+
+        String reference,
+
+        String bankName,
+
+        LocalDate dueDate
 ) {
 }
