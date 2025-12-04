@@ -5,14 +5,18 @@ import com.jartiste.smartshop.domain.enums.PaymentStatus;
 import lombok.Builder;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
 public record PaymentResponse(
         Long id,
-        Integer paymentNumber,
+        String reference,
         BigDecimal amount,
         PaymentMethod paymentMethod,
         PaymentStatus status,
-        LocalDateTime paymentDate) {
+        String bankName,
+        LocalDate dueDate,
+        LocalDateTime clearedDate,
+        LocalDateTime createdAt) {
 }
