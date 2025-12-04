@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    @RequireRole({UserRole.ADMIN})
+    @RequireRole({UserRole.ADMIN, UserRole.CLIENT})
     public ResponseEntity<OrderResponse> getOrder(@PathVariable Long id, HttpSession session) {
         OrderResponse order = this.orderService.getOrderById(id);
 
