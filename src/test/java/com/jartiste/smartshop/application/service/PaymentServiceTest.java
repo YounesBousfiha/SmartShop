@@ -55,7 +55,7 @@ class PaymentServiceTest {
                 .build();
 
         PaymentRequest request = new PaymentRequest(
-                BigDecimal.valueOf(4000),
+                BigDecimal.valueOf(4000), 
                 PaymentMethod.CHEQUE,
                 "CHQ-123456",
                 "Bank Al-Maghrib",
@@ -86,7 +86,7 @@ class PaymentServiceTest {
                 .build();
 
         PaymentRequest request = new PaymentRequest(
-                BigDecimal.valueOf(21000),
+                BigDecimal.valueOf(21000), 
                 PaymentMethod.ESPECES,
                 null,
                 null,
@@ -110,7 +110,7 @@ class PaymentServiceTest {
                 .build();
 
         PaymentRequest request = new PaymentRequest(
-                BigDecimal.valueOf(200),
+                BigDecimal.valueOf(200), 
                 PaymentMethod.ESPECES,
                 null,
                 null,
@@ -143,7 +143,7 @@ class PaymentServiceTest {
                 .build();
 
         PaymentRequest request = new PaymentRequest(
-                BigDecimal.valueOf(5000),
+                BigDecimal.valueOf(5000), 
                 PaymentMethod.ESPECES,
                 null,
                 null,
@@ -176,7 +176,7 @@ class PaymentServiceTest {
                 .build();
 
         PaymentRequest request = new PaymentRequest(
-                BigDecimal.valueOf(5000),
+                BigDecimal.valueOf(5000), 
                 PaymentMethod.CHEQUE,
                 null,  // missing reference
                 null,  // missing bankName
@@ -200,7 +200,7 @@ class PaymentServiceTest {
                 .build();
 
         PaymentRequest request = new PaymentRequest(
-                BigDecimal.valueOf(5000),
+                BigDecimal.valueOf(5000), 
                 PaymentMethod.VIREMENT,
                 null,  // missing reference
                 null,  // missing bankName
