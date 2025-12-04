@@ -7,7 +7,6 @@ import com.jartiste.smartshop.domain.entity.OrderItem;
 import com.jartiste.smartshop.domain.entity.Product;
 import com.jartiste.smartshop.domain.enums.CustomerTier;
 import com.jartiste.smartshop.domain.enums.OrderStatus;
-import com.jartiste.smartshop.domain.exception.BusinessLogicViolation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class OrderDomainServiceTest {
@@ -99,6 +97,7 @@ class OrderDomainServiceTest {
     void shouldDecreseStock() {
         Order order = new Order();
         order.setItemList(new ArrayList<>());
+        order.setOrderStatus(OrderStatus.PENDING);
 
         OrderItem item = OrderItem.builder()
                 .product(laptop)
@@ -110,19 +109,24 @@ class OrderDomainServiceTest {
 
         assertEquals(8, laptop.getStock());
         assertEquals(BigDecimal.valueOf(2000.00), order.getSubTotal());
+        assertEquals(OrderStatus.PENDING, order.getOrderStatus());
     }
 
     @Test
-    @DisplayName("Should Throw expcetion when stock is insufficient")
-    void ShouldThrowExceptionWhenStockIsLow() {
+    @DisplayName("Should create order with REJECTED status when stock is insufficient")
+    void shouldCreateRejectedOrderWhenStockIsLow() {
         Order order = new Order();
+        order.setItemList(new ArrayList<>());
         OrderItem item = OrderItem.builder()
                 .product(laptop)
                 .quantity(20)
+                .unitPrice(laptop.getPrice())
                 .build();
 
-        assertThrows(BusinessLogicViolation.class, () -> {
-            orderDomainService.processOrderItem(order, List.of(item));
-        });
+        orderDomainService.processOrderItem(order, List.of(item));
+
+        assertEquals(OrderStatus.REJECTED, order.getOrderStatus());
+        assertEquals(10, laptop.getStock());
+        assertEquals(BigDecimal.valueOf(20000.00), order.getSubTotal());
     }
 }
