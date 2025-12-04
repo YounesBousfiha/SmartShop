@@ -23,9 +23,23 @@ public class OrderDomainService {
 
     public void processOrderItem(Order order, List<OrderItem> itemList) {
         BigDecimal subTotal = BigDecimal.ZERO;
+        boolean hasInsufficientStock = false;
 
         for(OrderItem item: itemList) {
-            item.getProduct().decreaseStock(item.getQuantity());
+            if(!item.getProduct().hasAvailableStock(item.getQuantity())) {
+                hasInsufficientStock = true;
+                break;
+            }
+        }
+
+        if(hasInsufficientStock) {
+            order.setOrderStatus(OrderStatus.REJECTED);
+        }
+
+        for(OrderItem item: itemList) {
+            if(order.getOrderStatus() != OrderStatus.REJECTED) {
+                item.getProduct().decreaseStock(item.getQuantity());
+            }
 
             item.setOrder(order);
             order.getItemList().add(item);
