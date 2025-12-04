@@ -43,6 +43,10 @@ public class Product {
         this.stock -= quantity;
     }
 
+    public boolean hasAvailableStock(int quantity) {
+        return this.stock >= quantity;
+    }
+
     public void increaseStock(int quantity) {
         this.stock += quantity;
     }
