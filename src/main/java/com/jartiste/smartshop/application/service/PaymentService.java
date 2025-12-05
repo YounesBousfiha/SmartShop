@@ -1,7 +1,7 @@
 package com.jartiste.smartshop.application.service;
 
 
-import com.jartiste.smartshop.domain.entity.Client;
+// import com.jartiste.smartshop.domain.entity.Client;
 import com.jartiste.smartshop.domain.entity.Order;
 import com.jartiste.smartshop.domain.entity.Payment;
 import com.jartiste.smartshop.domain.enums.OrderStatus;
@@ -9,7 +9,7 @@ import com.jartiste.smartshop.domain.enums.PaymentMethod;
 import com.jartiste.smartshop.domain.enums.PaymentStatus;
 import com.jartiste.smartshop.domain.exception.BusinessLogicViolation;
 import com.jartiste.smartshop.domain.exception.ResourceNotFound;
-import com.jartiste.smartshop.domain.repository.ClientRepository;
+// import com.jartiste.smartshop.domain.repository.ClientRepository;
 import com.jartiste.smartshop.domain.repository.OrderRepository;
 import com.jartiste.smartshop.domain.repository.PaymentRepository;
 import com.jartiste.smartshop.presentation.dto.request.PaymentRequest;
@@ -28,7 +28,7 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
-    private final ClientRepository clientRepository;
+    // private final ClientRepository clientRepository;
 
     @Transactional
     public PaymentResponse addPayment(Long orderId, PaymentRequest request) {
