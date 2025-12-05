@@ -69,13 +69,13 @@ public class PaymentService {
 
         Payment savedPayment = this.paymentRepository.save(payment);
 
-        if (newRemaining.compareTo(BigDecimal.ZERO) == 0 && order.getOrderStatus() == OrderStatus.PENDING) {
+        /* if (newRemaining.compareTo(BigDecimal.ZERO) == 0 && order.getOrderStatus() == OrderStatus.PENDING) {
             order.setOrderStatus(OrderStatus.CONFIRMED);
 
             Client client = order.getClient();
             client.updateStats(order.getTotalAmount());
             this.clientRepository.save(client);
-        }
+        }*/
 
         this.orderRepository.save(order);
 
