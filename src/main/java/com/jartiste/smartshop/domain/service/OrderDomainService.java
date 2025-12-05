@@ -65,12 +65,15 @@ public class OrderDomainService {
         order.setDiscountAmount(discountAmount.setScale(2, RoundingMode.HALF_UP));
 
         BigDecimal netHT = order.getSubTotal().subtract(order.getDiscountAmount());
+
         if(netHT.compareTo(BigDecimal.ZERO) < 0) netHT = BigDecimal.ZERO;
 
         BigDecimal tva = netHT.multiply(BigDecimal.valueOf(0.20));
+
         order.setTaxAmount(tva.setScale(2, RoundingMode.HALF_UP));
 
         BigDecimal total = netHT.add(tva).setScale(2, RoundingMode.HALF_UP);
+
         order.setTotalAmount(total);
         order.setRemainingAmount(total);
     }
