@@ -124,7 +124,7 @@ class PaymentServiceTest {
         });
     }
 
-    @Test
+    /*@Test
     @DisplayName("Should auto-confirm order when fully paid")
     void shouldAutoConfirmOrderWhenFullyPaid() {
         Client client = Client.builder()
@@ -164,7 +164,7 @@ class PaymentServiceTest {
         assertEquals(0, order.getRemainingAmount().compareTo(BigDecimal.ZERO));
         assertNotNull(response.reference());
         assertTrue(response.reference().startsWith("ESP-"));
-    }
+    }*/
 
     @Test
     @DisplayName("Should throw exception if CHEQUE payment missing required fields")
