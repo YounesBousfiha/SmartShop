@@ -498,7 +498,7 @@ We welcome contributions! Please follow these steps:
 ### Coding Standards
 - Follow Java naming conventions
 - Write unit tests for new features
-- Maintain code coverage above 80%
+- Maintain code coverage above 40%
 - Document public APIs with JavaDoc
 - Use meaningful commit messages
 
@@ -528,9 +528,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support and questions:
-- 📧 Email: support@jartiste.com
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/SmartShop/issues)
-- 📖 Wiki: [Project Wiki](https://github.com/yourusername/SmartShop/wiki)
+- 📧 Email: younescoder@gmail.com
+- 🐛 Issues: [GitHub Issues](https://github.com/younesbousfiha/SmartShop/issues)
 
 ---
 
