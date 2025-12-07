@@ -29,6 +29,7 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
     // private final ClientRepository clientRepository;
+    private static final String LOCAL_DATETIME_PATTERN = "yyyyMMddHHmmss";
 
     @Transactional
     public PaymentResponse addPayment(Long orderId, PaymentRequest request) {
@@ -90,9 +91,6 @@ public class PaymentService {
                 }
             }
             case CHEQUE -> {
-                if (request.reference() == null || request.reference().isBlank()) {
-                    throw new BusinessLogicViolation("Check payment requires a reference");
-                }
                 if (request.bankName() == null || request.bankName().isBlank()) {
                     throw new BusinessLogicViolation("Check payment requires bank name");
                 }
@@ -101,9 +99,6 @@ public class PaymentService {
                 }
             }
             case VIREMENT -> {
-                if (request.reference() == null || request.reference().isBlank()) {
-                    throw new BusinessLogicViolation("Transfer payment requires a reference");
-                }
                 if (request.bankName() == null || request.bankName().isBlank()) {
                     throw new BusinessLogicViolation("Transfer payment requires bank name");
                 }
@@ -115,10 +110,22 @@ public class PaymentService {
         if (request.reference() != null && !request.reference().isBlank()) {
             return request.reference();
         }
+        switch (request.paymentMethod()) {
 
-        if (request.paymentMethod() == PaymentMethod.ESPECES) {
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-            return "ESP-" + timestamp;
+            case PaymentMethod.ESPECES -> {
+                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern(LOCAL_DATETIME_PATTERN));
+                return "ESP-" + timestamp;
+            }
+
+            case PaymentMethod.VIREMENT -> {
+                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern(LOCAL_DATETIME_PATTERN));
+                return "VIR-" + timestamp;
+            }
+
+            case PaymentMethod.CHEQUE -> {
+                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern(LOCAL_DATETIME_PATTERN));
+                return "CHQ-" + timestamp;
+            }
         }
 
         return null;
