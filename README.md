@@ -76,7 +76,7 @@ SmartShop follows a **4-layer Clean Architecture** pattern ensuring separation o
 - **Domain-Driven Design (DDD)** - Rich domain models with business logic encapsulation
 - **Repository Pattern** - Abstraction over data access
 - **DTO Pattern** - Request/Response objects for API layer
-- **Single Table Inheritance** - User entity hierarchy (Client/Admin)
+- **Joined Table Inheritance** - User entity hierarchy (Client/Admin)
 - **Service Layer Pattern** - Business orchestration and transaction management
 
 ---
@@ -176,7 +176,6 @@ mvn spring-boot:run -Dspring-boot.run.profiles=prod
 |---------|----------|---------|
 | `dev` | H2 (in-memory) | Development and testing |
 | `qa` | PostgreSQL + Vault | Quality assurance |
-| `prod` | PostgreSQL | Production deployment |
 
 ### Application Properties
 
@@ -323,7 +322,6 @@ CANCELLED (possible at any stage)
 ### Payment Methods
 
 - **CASH** - Cash on delivery
-- **CREDIT_CARD** - Credit/Debit card payment
 - **BANK_TRANSFER** - Direct bank transfer (requires reference)
 - **CHECK** - Check payment (requires bank name and due date)
 
@@ -451,6 +449,7 @@ SmartShop/
 │   │   │   ├── domain/               # Domain Layer
 │   │   │   │   ├── entity/           # Domain entities
 │   │   │   │   ├── enums/            # Enumerations
+│   │   │       └── exception/        # Exception handling
 │   │   │   │   ├── repository/       # Repository interfaces
 │   │   │   │   └── service/          # Domain services
 │   │   │   ├── infrastructure/       # Infrastructure Layer
@@ -458,12 +457,10 @@ SmartShop/
 │   │   │   │   └── util/             # Utility classes
 │   │   │   └── presentation/         # Presentation Layer
 │   │   │       ├── annotation/       # Custom annotations
-│   │   │       ├── aspect/           # AOP aspects
 │   │   │       ├── controller/       # REST controllers
 │   │   │       ├── dto/              # Data Transfer Objects
 │   │   │       │   ├── request/      # Request DTOs
 │   │   │       │   └── response/     # Response DTOs
-│   │   │       └── exception/        # Exception handling
 │   │   └── resources/
 │   │       ├── application.yaml      # Main config
 │   │       ├── application-dev.yml   # Dev profile
@@ -484,7 +481,6 @@ SmartShop/
 ## 📚 Documentation
 
 - **[Developer Guide](DEVELOPER_GUIDE.md)** - Comprehensive development guide with architecture details
-- **[Entity Documentation](ENTITY_DOCUMENTATION.md)** - Complete entity reference and relationships
 - **[Class Diagram](conception/ClassDiagram-Final.jpg)** - Visual representation of domain model
 
 ---
@@ -540,7 +536,7 @@ For support and questions:
 
 <div align="center">
 
-**Made with ❤️ by Jartiste Team**
+**Made with ❤️ by Younes Bousfiha**
 
 ⭐ Star us on GitHub — it motivates us a lot!
 
