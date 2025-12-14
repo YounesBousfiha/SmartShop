@@ -21,7 +21,7 @@ public class OpenApiConfig {
 
         Contact contact = new Contact();
         contact.setName("SmartShop Support");
-        contact.setEmail("support@smartshop.com");
+        contact.setEmail("younesbousfiha96@gmail.com");
 
         License license = new License()
                 .name("Apache 2.0")
